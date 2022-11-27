@@ -1,0 +1,9 @@
+﻿Save/load state
+Options
+    Change Colour
+    Delete note
+hide top bar when loosing focus?
+notes list
+Global settings
+    dark mode
+Formatting controls?
