@@ -1,0 +1,27 @@
+﻿<Window x:Class="StickyNotesApp.StickyNoteWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StickyNotesApp"
+        xmlns:controls="clr-namespace:StickyNotesApp.Controls"
+        mc:Ignorable="d"
+        Height="350" Width="225" Title="Sticky Notes"
+        WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="CanResizeWithGrip"
+        MouseDown="MoveNote">
+    <DockPanel>
+        <Grid ShowGridLines="False" DockPanel.Dock="Top" Background="#E6B905" Height="30px">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30px"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="30px"/>
+                <ColumnDefinition Width="30px"/>
+            </Grid.ColumnDefinitions>
+            <controls:NotesButton Grid.Column="0" Text="+" ButtonClicked="NewNote" HoverColor="#B98B05"/>
+            <Separator Grid.Column="1" Background="Transparent"/>
+            <controls:NotesButton Grid.Column="2" Text="..." HoverColor="#B98B05"/>
+            <controls:NotesButton Grid.Column="3" Text="X" ButtonClicked="CloseNote" HoverColor="#B98B05"/>
+        </Grid>
+        <RichTextBox Background="#333333" Padding="10px" Foreground="#EEEEEE" FontSize="14px" BorderThickness="0"/>
+    </DockPanel>
+</Window>
