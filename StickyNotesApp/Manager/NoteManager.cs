@@ -19,5 +19,10 @@ namespace StickyNotesApp.Manager
             windows.Add(window);
             Console.Out.WriteLine("Spawned a note");
         }
+
+        public void CloseNote(StickyNoteWindow window)
+        {
+            windows.Remove(window);
+        }
     }
 }

@@ -30,6 +30,7 @@ namespace StickyNotesApp
         private void CloseNote(object sender, EventArgs data)
         {
             this.Close();
+            _noteManager.CloseNote(this);
         }
     }
 }
