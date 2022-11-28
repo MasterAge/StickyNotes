@@ -1,9 +1,15 @@
-﻿Save/load state
+﻿notes list
 Options
     Change Colour
     Delete note
-hide top bar when loosing focus?
-notes list
+Delete confirmation
+Button Icons
 Global settings
     dark mode
 Formatting controls?
+hide top bar when loosing focus?
+
+Done:
+Save/load state
+Min size
+save window position and size

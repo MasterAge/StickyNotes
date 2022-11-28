@@ -7,10 +7,11 @@
         xmlns:controls="clr-namespace:StickyNotesApp.Controls"
         mc:Ignorable="d"
         Height="350" Width="225" Title="Sticky Notes"
-        WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True" ResizeMode="CanResizeWithGrip"
-        MouseDown="MoveNote">
+        MinHeight="150" MinWidth="100"
+        WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResizeWithGrip"
+        MouseLeftButtonDown="MoveNote" LocationChanged="UpdatePosition" SizeChanged="UpdateSize">
     <DockPanel>
-        <Grid ShowGridLines="False" DockPanel.Dock="Top" Background="#E6B905" Height="30px">
+        <Grid DockPanel.Dock="Top" Background="#E6B905" Height="30px">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="30px"/>
                 <ColumnDefinition Width="*"/>
@@ -22,6 +23,10 @@
             <controls:NotesButton Grid.Column="2" Text="..." HoverColor="#B98B05"/>
             <controls:NotesButton Grid.Column="3" Text="X" ButtonClicked="CloseNote" HoverColor="#B98B05"/>
         </Grid>
-        <RichTextBox Background="#333333" Padding="10px" Foreground="#EEEEEE" FontSize="14px" BorderThickness="0"/>
+        <RichTextBox Background="#333333" Padding="10px" Foreground="#EEEEEE" FontSize="14px" BorderThickness="0"
+                     Name="NoteTextBox"
+                     TextChanged="UpdateText"
+        >
+        </RichTextBox>
     </DockPanel>
 </Window>

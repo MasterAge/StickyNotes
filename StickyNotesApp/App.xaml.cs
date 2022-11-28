@@ -1,4 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Windows;
+using System.Windows.Threading;
 using StickyNotesApp.Manager;
 
 namespace StickyNotesApp
@@ -8,7 +12,7 @@ namespace StickyNotesApp
     /// </summary>
     public partial class App : Application
     {
-        private NoteManager _noteManager;
+        private readonly NoteManager _noteManager;
 
         public App()
         {
@@ -17,7 +21,13 @@ namespace StickyNotesApp
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            _noteManager.NewNote();
+            _noteManager.LoadNotes();
+        }
+
+        void UnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            Debug.WriteLine(e.Exception.ToString());
+            e.Handled = true;
         }
     }
 }
