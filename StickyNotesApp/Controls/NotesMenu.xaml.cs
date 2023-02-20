@@ -63,5 +63,10 @@ namespace StickyNotesApp.Controls
                 SetColor?.Invoke(this, ColorUtil.HexToBrush(color.ToString()));
             }
         }
+
+        private void OnSelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+            ColorPicker.Background = ColorUtil.HexToBrush(e.NewValue.ToString());
+        }
     }
 }

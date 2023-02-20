@@ -5,14 +5,11 @@ Button Icons
     plus
     ...
     pipette
-    
 Global settings
     dark mode
 Formatting controls?
 snap to other note
 lock size
-merge NotesButton and ButtonEx
-Color picker for setting note color
 
 Done:
 Save/load state
@@ -22,3 +19,5 @@ Options: Delete note
 rtb line spacing
 hide top bar when loosing focus
 Options: Change Colour
+Color picker for setting note color
+merge NotesButton and ButtonEx

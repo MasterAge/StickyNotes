@@ -72,7 +72,6 @@
         <Compile Include="Utils\ColorUtil.cs" />
         <Compile Include="ViewModels\StickyNoteWindowVm.cs" />
         <Page Include="Controls\ButtonEx.xaml" />
-        <Page Include="Controls\NotesButton.xaml" />
         <Page Include="Controls\NotesMenu.xaml" />
         <Page Include="StickyNoteWindow.xaml">
             <Generator>MSBuild:Compile</Generator>
@@ -84,9 +83,6 @@
         </Compile>
         <Compile Include="Controls\ButtonEx.xaml.cs">
           <DependentUpon>ButtonEx.xaml</DependentUpon>
-        </Compile>
-        <Compile Include="Controls\NotesButton.xaml.cs">
-          <DependentUpon>NotesButton.xaml</DependentUpon>
         </Compile>
         <Compile Include="Controls\NotesMenu.xaml.cs">
           <DependentUpon>NotesMenu.xaml</DependentUpon>

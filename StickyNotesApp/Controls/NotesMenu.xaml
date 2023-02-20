@@ -17,6 +17,7 @@
             <Setter Property="Background" Value="Gray"></Setter>
             <Setter Property="BorderThickness" Value="0"></Setter>
             <Setter Property="Padding" Value="0"></Setter>
+            <Setter Property="Margin" Value="0"></Setter>
         </Style>
     </UserControl.Resources>
     <DockPanel>
@@ -40,10 +41,11 @@
                 <wpfExt:ButtonEx Grid.Column="2" Background="Pink" Click="OnSetColor"/>
                 <wpfExt:ButtonEx Grid.Column="3" Background="LightSkyBlue" Click="OnSetColor"/>
                 <wpfExt:ButtonEx Grid.Column="4" Background="LightGray" Click="OnSetColor"/>
-                <xctk:ColorPicker Grid.Column="5" ColorMode="ColorCanvas" ShowTabHeaders="False"
+                <xctk:ColorPicker Grid.Column="5" Name="ColorPicker" ColorMode="ColorCanvas" ShowTabHeaders="False"
                                   UsingAlphaChannel="False" ShowDropDownButton="False"
-                                  DropDownBackground="#333333" Foreground="White"
-                                  Closed="OnColorPickerClosed"/>
+                                  DropDownBackground="#333333" Foreground="#EEEEEE"
+                                  SelectedColorChanged="OnSelectedColorChanged"
+                                  Closed="OnColorPickerClosed" BorderThickness="0"/>
             </Grid>
             <wpfExt:ButtonEx Grid.Row="1" Background="#333333" Foreground="#EEEEEE" Click="OnShowHistory"
                              FontSize="14px" HorizontalContentAlignment="Left" Padding="10">
