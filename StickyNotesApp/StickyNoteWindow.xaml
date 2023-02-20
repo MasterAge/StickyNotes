@@ -3,30 +3,61 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:StickyNotesApp"
         xmlns:controls="clr-namespace:StickyNotesApp.Controls"
+        xmlns:viewModels="clr-namespace:StickyNotesApp.ViewModels"
+        xmlns:wpfExt="clr-namespace:wpfExt"
         mc:Ignorable="d"
         Height="350" Width="225" Title="Sticky Notes"
-        MinHeight="150" MinWidth="100"
+        MinHeight="200" MinWidth="100" Name="NoteWindow"
         WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResizeWithGrip"
-        MouseLeftButtonDown="MoveNote" LocationChanged="UpdatePosition" SizeChanged="UpdateSize">
-    <DockPanel>
-        <Grid DockPanel.Dock="Top" Background="#E6B905" Height="30px">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="30px"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="30px"/>
-                <ColumnDefinition Width="30px"/>
-            </Grid.ColumnDefinitions>
-            <controls:NotesButton Grid.Column="0" Text="+" ButtonClicked="NewNote" HoverColor="#B98B05"/>
-            <Separator Grid.Column="1" Background="Transparent"/>
-            <controls:NotesButton Grid.Column="2" Text="..." HoverColor="#B98B05"/>
-            <controls:NotesButton Grid.Column="3" Text="X" ButtonClicked="CloseNote" HoverColor="#B98B05"/>
+        MouseLeftButtonDown="MoveNote" LocationChanged="UpdatePosition" SizeChanged="UpdateSize"
+        Deactivated="OnLostFocus" Activated="OnGotFocus">
+    <Window.DataContext>
+        <viewModels:StickyNoteWindowVm />
+    </Window.DataContext>
+    <Window.Resources>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="FontWeight" Value="Light" />
+            <Setter Property="FontSize" Value="24px" />
+            <Setter Property="BorderThickness" Value="0px" />
+            <Setter Property="Margin" Value="0 -4px 0 0" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid Name="MenuGrid" ZIndex="1" Visibility="Hidden">
+            <controls:NotesMenu CloseMenu="HideMenu" ShowHistory="ShowHistory" DeleteNote="DeleteNote"
+                                SetColor="OnSetColor" />
         </Grid>
-        <RichTextBox Background="#333333" Padding="10px" Foreground="#EEEEEE" FontSize="14px" BorderThickness="0"
-                     Name="NoteTextBox"
-                     TextChanged="UpdateText"
-        >
-        </RichTextBox>
-    </DockPanel>
+        <DockPanel>
+            <Grid DockPanel.Dock="Top" Background="{Binding Color}" Height="30px"
+                  Name="TopBar">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30px" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="30px" />
+                    <ColumnDefinition Width="30px" />
+                </Grid.ColumnDefinitions>
+                <wpfExt:ButtonEx Grid.Column="0" Click="NewNote" Background="{Binding Color}" >
+                    +
+                </wpfExt:ButtonEx>
+                <Separator Grid.Column="1" Background="Transparent" />
+                <wpfExt:ButtonEx Grid.Column="2" Click="ShowMenu" Background="{Binding Color}">
+                    ...
+                </wpfExt:ButtonEx>
+                <wpfExt:ButtonEx Grid.Column="3" Click="CloseNote" Background="{Binding Color}">
+                    X
+                </wpfExt:ButtonEx>
+            </Grid>
+            <Grid Name="MinimizedTopBar" DockPanel.Dock="Top" Height="10px"
+                  Background="{Binding Color}" />
+            <RichTextBox Background="#333333" Foreground="#EEEEEE" FontSize="14px" Padding="10px"
+                         BorderThickness="0" Name="NoteTextBox" TextChanged="UpdateText">
+                <RichTextBox.Resources>
+                    <Style TargetType="{x:Type Paragraph}">
+                        <Setter Property="Margin" Value="0" />
+                    </Style>
+                </RichTextBox.Resources>
+            </RichTextBox>
+        </DockPanel>
+    </Grid>
 </Window>

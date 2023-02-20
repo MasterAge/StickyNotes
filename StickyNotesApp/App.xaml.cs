@@ -24,6 +24,11 @@ namespace StickyNotesApp
             _noteManager.LoadNotes();
         }
 
+        protected override void OnExit(ExitEventArgs e)
+        {
+            _noteManager.SaveNotes();
+        }
+
         void UnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             Debug.WriteLine(e.Exception.ToString());

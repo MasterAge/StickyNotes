@@ -32,6 +32,6 @@
             </Style>
         </Button.Style>
         
-        <TextBlock Text="{Binding Text}" Foreground="#333333"/>
+        <TextBlock Text="{Binding Text}" Foreground="{Binding TextColor}"/>
     </Button>
 </UserControl>

@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Timers;
 using System.Windows;
+using System.Windows.Media;
 using Newtonsoft.Json;
+using StickyNotesApp.ViewModels;
 using static System.Environment;
 
 namespace StickyNotesApp.Manager
@@ -21,6 +25,8 @@ namespace StickyNotesApp.Manager
         public double Width { get; set; }
 
         public double Height { get; set; }
+        
+        public string Color { get; set; }
 
         public NoteState()
         {
@@ -29,10 +35,11 @@ namespace StickyNotesApp.Manager
             Position = new Point(0, 0);
             Width = 225;
             Height = 350;
+            Color = "#E6B905";
         }
 
         [JsonConstructor]
-        public NoteState(byte[] content, bool open, Guid id, Point position, double width, double height)
+        public NoteState(byte[] content, bool open, Guid id, Point position, double width, double height, string color)
         {
             Content = content;
             Open = open;
@@ -40,6 +47,7 @@ namespace StickyNotesApp.Manager
             Position = position;
             Width = width;
             Height = height;
+            Color = color;
         }
     }
 
@@ -59,6 +67,8 @@ namespace StickyNotesApp.Manager
         // Maps instances of windows to note ids.
         private readonly Dictionary<StickyNoteWindow, Guid> _windows;
 
+        private readonly Timer _writeTimer;
+
         public NoteManager()
         {
             _notes = new Dictionary<Guid, NoteState>();
@@ -66,6 +76,15 @@ namespace StickyNotesApp.Manager
 
             _dataPath = Path.Combine(GetFolderPath(SpecialFolder.LocalApplicationData), DataFolder);
             Directory.CreateDirectory(_dataPath);
+
+            _writeTimer = new Timer(5000);
+            _writeTimer.Elapsed += OnWriteTimerElapsed;
+        }
+        
+        private void OnWriteTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            SaveNotes();
+            _writeTimer.Stop();
         }
 
         /**
@@ -78,8 +97,8 @@ namespace StickyNotesApp.Manager
 
         public void CreateNote()
         {
-            var window = new StickyNoteWindow(this);
             var state = new NoteState();
+            var window = new StickyNoteWindow(this, new StickyNoteWindowVm(state.Color));
             _windows.Add(window, state.Id);
             _notes.Add(state.Id, state);
 
@@ -94,7 +113,7 @@ namespace StickyNotesApp.Manager
         {
             _notes.Remove(_windows[window]);
             _windows.Remove(window);
-            SaveNotes();
+            RequestSave();
         }
 
         /**
@@ -103,14 +122,11 @@ namespace StickyNotesApp.Manager
         public void OpenNote(Guid id)
         {
             var noteState = _notes[id];
-            var window = new StickyNoteWindow(this);
+            var window = new StickyNoteWindow(this, new StickyNoteWindowVm(noteState.Color));
             _windows.Add(window, id);
             noteState.Open = true;
 
-            if (noteState.Content != null)
-            {
-                window.SetContent(noteState.Content);
-            }
+            window.SetContent(noteState.Content);
 
             window.Top = noteState.Position.Y;
             window.Left = noteState.Position.X;
@@ -128,7 +144,7 @@ namespace StickyNotesApp.Manager
             noteState.Open = false;
             if (noteState.Content != null)
             {
-                SaveNotes();
+                RequestSave();
             }
 
             _windows.Remove(window);
@@ -137,13 +153,13 @@ namespace StickyNotesApp.Manager
         public void UpdateNoteContent(StickyNoteWindow window, byte[] noteContent)
         {
             GetNoteState(window).Content = noteContent;
-            SaveNotes();
+            RequestSave();
         }
 
         public void UpdateNotePosition(StickyNoteWindow window, Point position)
         {
             GetNoteState(window).Position = position;
-            SaveNotes();
+            RequestSave();
         }
 
         public void UpdateNoteSize(StickyNoteWindow window, double width, double height)
@@ -151,13 +167,30 @@ namespace StickyNotesApp.Manager
             var noteState = GetNoteState(window);
             noteState.Width = width;
             noteState.Height = height;
-            SaveNotes();
+            RequestSave();
+        }
+        
+        public void UpdateNoteColor(StickyNoteWindow window, SolidColorBrush color)
+        {
+            GetNoteState(window).Color = color.Color.ToString();
+            RequestSave();
+        }
+
+        /**
+         * Request the notes to be saved to disk. The app
+         */
+        private void RequestSave()
+        {
+            Debug.WriteLine("Save Requested");
+            _writeTimer.Stop();
+            _writeTimer.Start();
         }
 
         public void SaveNotes()
         {
             var jsonNotes = JsonConvert.SerializeObject(_notes, Formatting.Indented);
             File.WriteAllText(Path.Combine(_dataPath, DataFileName), jsonNotes);
+            Debug.WriteLine("Saved notes to " + Path.Combine(_dataPath, DataFileName).ToString());
         }
 
         public void LoadNotes()

@@ -1,15 +1,24 @@
 ﻿notes list
-Options
-    Change Colour
-    Delete note
 Delete confirmation
 Button Icons
+    x
+    plus
+    ...
+    pipette
+    
 Global settings
     dark mode
 Formatting controls?
-hide top bar when loosing focus?
+snap to other note
+lock size
+merge NotesButton and ButtonEx
+Color picker for setting note color
 
 Done:
 Save/load state
 Min size
 save window position and size
+Options: Delete note
+rtb line spacing
+hide top bar when loosing focus
+Options: Change Colour

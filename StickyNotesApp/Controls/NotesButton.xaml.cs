@@ -3,6 +3,7 @@ using System.Security;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using StickyNotesApp.Utils;
 
 namespace StickyNotesApp.Controls
 {
@@ -11,6 +12,8 @@ namespace StickyNotesApp.Controls
         public string Text { get; set; }
         
         public SolidColorBrush HoverColor { get; set; }
+        
+        public SolidColorBrush TextColor { get; set; } = ColorUtil.HexToBrush("#333333");
         
         public NotesButton()
         {
